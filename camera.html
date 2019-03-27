@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Page Title</title>
+</head>
+<body>
+
+<input type="file" accept="image/*" id="file-input" capture = "user">
+<script>
+  const fileInput = document.getElementById('file-input');
+
+  fileInput.addEventListener('change', (e) => doSomethingWithFiles(e.target.files));
+</script>
+
+</body>
+</html>
