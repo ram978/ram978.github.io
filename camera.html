@@ -20,14 +20,22 @@ label.cameraButton {
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
 .cameraButton:hover {opacity: 20}
+.center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
 </style>
-  <title>Nice image capture button</title>
+  <title>Vin Number Capture</title>
 </head>
 
-<body><center>
+<body><div class="center">
   <label class="cameraButton">Scan Vin number
-    <input type="file" accept="image/*;capture=user">
-  </label></center>
+    <input type="file" accept="image/*;capture=camera">
+  </label></div>
 </body>
 
 </html>
