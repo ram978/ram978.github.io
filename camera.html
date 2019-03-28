@@ -5,16 +5,51 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <style>
+  .upload-btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+.upload-btn-wrapper input[type=file] {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+}
+.verticalhorizontal {
+    display: table-cell;
+    height: 300px;
+    text-align: center;
+    width: 300px;
+    vertical-align: middle;
+}
+.btn {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+}
+.btn:hover{
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+}
+  </style>
  </head>
- <body>
-  <br /><br />
-  <div class="container" style="width:700px;">
-   <br />
-   <label class="cameraButton">Scan the Vin Number
+ <body><center>
+  <p class="verticalhorizontal">
+  <div class="upload-btn-wrapper">
+  <button class="btn">Scan Vin Number</button>
    <input type="file" name="file" id="file" accept = "image/*" capture="camera"/>
-   <br /></label>
-   <span id="uploaded_image"></span>
-  </div>
+   </div></p></center>
 <script>
 $(document).ready(function(){
  $(document).on('change', '#file', function(){
