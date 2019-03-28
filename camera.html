@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html>
- <head>
-  <title>Webslesson Tutorial | Upload File without using Form Submit in Ajax PHP</title>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <link href="/styles.css"  rel="stylesheet" type="text/css"  />
- <style>
+<head>
+    <title>OCR Sample</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+<style>
  .upload-btn-wrapper {
   position: relative;
   overflow: hidden;
@@ -26,74 +24,134 @@
     vertical-align: middle;
 }
 .btn {
-  background-color: #DB7093; /* Green */
+  background-color: #DB7093; /* PINK */
   border: none;
   color: white;
-  padding: 15px 31px;
+  padding: 16px 32px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
   font-size: 40px;
   margin: 4px 2px;
-  cursor: pointer;
   -webkit-transition-duration: 0.4s; /* Safari */
   transition-duration: 0.4s;
+  cursor: pointer;
   border-radius: 8px;
 }
 .btn:hover{
   box-shadow: 0 20px 36px 0 rgba(0,24,0,0.24),0 17px 50px 0 rgba(0,24,0,0.19);
 }
+
+.button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  cursor: pointer;
+  border-radius: 8px;
+}
+.button:hover{
+  box-shadow: 0 20px 36px 0 rgba(0,24,0,0.24),0 17px 50px 0 rgba(0,24,0,0.19);
+}
 </style>
- </head>
- <body><center> 
+</head>
+<body>
+<script type="text/javascript">
+    function processImage() {
+        var subscriptionKey = "42513e5d6485410db13347160a3e35cc";
+        var uriBase =
+            "https://westcentralus.api.cognitive.microsoft.com/vision/v1.0/ocr";
+        // Request parameters.
+        var params = {
+            "language": "unk",
+            "detectOrientation": "true",
+        };
+        // Display the image.
+        //var sourceImageUrl = document.getElementById("inputImage").value;
+        // document.querySelector("#sourceImage").src = sourceImageUrl;
+        // Perform the REST API call.
+        $.ajax({
+            url: uriBase + "?" + $.param(params),
+            // Request headers.
+            beforeSend: function(jqXHR){
+                jqXHR.setRequestHeader("Content-Type","application/json");
+                jqXHR.setRequestHeader("Ocp-Apim-Subscription-Key", subscriptionKey);
+            },
+            type: "POST",
+            // Request body.
+            data: '{"url": ' + '"' + "https://nodefri.blob.core.windows.net/$web/vin1.png" + '"}',
+        })
+        .done(function(data) {
+           // var obj = JSON.stringify(data,null,2)
+            //document.getElementById("demo").innerHTML = obj.name + ", " + obj.age;
+            // Show formatted JSON on webpage.
+            
+            //$("#responseTextArea").val(obj);
+            var r = data['regions'];
+            for(var i of r) {
+                var lines = i['lines'];
+                for(var j of lines) {
+                    var words = j['words'];
+                    for(var k of words){
+                        var text = k['text'];
+                        if((text.replace(/\s/g,'')).length == 17){
+
+                        $("#responseTextArea").val(text);
+                        console.log(text)
+                        }
+                    }
+                }
+            }
+
+        })
+        .fail(function(jqXHR, textStatus, errorThrown) {
+            // Display error message.
+            var errorString = (errorThrown === "") ?
+                "Error. " : errorThrown + " (" + jqXHR.status + "): ";
+            errorString += (jqXHR.responseText === "") ? "" :
+                (jQuery.parseJSON(jqXHR.responseText).message) ?
+                    jQuery.parseJSON(jqXHR.responseText).message :
+                    jQuery.parseJSON(jqXHR.responseText).error.message;
+            alert(errorString);
+        });
+    };
+</script>
+<!--
+//Image to read:
+//<input type="text" name="inputImage" id="inputImage" 
+   // value="https://nodefri.blob.core.windows.net/$web/vin1.png" /> -->
+
+ <!-- <br><br> -->
+<!--
+<div id="wrapper" style="width:1020px; display:table;">
+    <div id="jsonOutput" style="width:600px; display:table-cell;"> -->
+
+    <center> 
   <p class="verticalhorizontal">
-  <img src="https://raw.githubusercontent.com/ram978/ram978.github.io/master/dcu.png" alt="dcu_logo" width="500" height="350">
+  <img src="dcu.png" alt="dcu_logo" width="500" height="350">
   <div class="upload-btn-wrapper">
   <button class="btn">SCAN VIN NUMBER</button>
    <input type="file" name="file" id="file" accept = "image/*" capture="camera"/>
    </div></p></center>
-<script>
-$(document).ready(function(){
- $(document).on('change', '#file', function(){
-  var name = document.getElementById("file").files[0].name;
-  var form_data = new FormData();
-  var ext = name.split('.').pop().toLowerCase();
-  if(jQuery.inArray(ext, ['gif','png','jpg','jpeg']) == -1) 
-  {
-   alert("Invalid Image File");
-  }
-  var oFReader = new FileReader();
-  oFReader.readAsDataURL(document.getElementById("file").files[0]);
-  var f = document.getElementById("file").files[0];
-  var fsize = f.size||f.fileSize;
-  if(fsize > 2000000)
-  {
-   alert("Image File Size is very big");
-  }
-  else
-  {
-   form_data.append("file", document.getElementById('file').files[0]);
-   $.ajax({
-    url:"upload.php",
-    method:"POST",
-    data: form_data,
-    contentType: false,
-    cache: false,
-    processData: false,
-   // beforeSend:function(){
-   //  $('#uploaded_image').html("<label class='text-success'>Image Uploading...</label>");
-   // },   
-   // success:function(data)
-   // {
-   //  $('#uploaded_image').html(data);
-    }
-   });
-  }
- });
-});
-</script>
- </body>
 
+        <center>
+        <button class = "button button1" onclick="processImage()">Read image</button>
+        <textarea id="responseTextArea" class="UIInput"
+                  style="width:150px; height:20px;"></textarea>
+    <!-- </div> -->
+    <div id="imageDiv" style="width:420px; display:table-cell;"> </center>
+
+ <!--       Source image:
+        <br><br>
+        <img id="sourceImage" width="400" /> -->
+ <!--   </div> -->
+<!-- </div>  -->
+</body>
 </html>
-
-
