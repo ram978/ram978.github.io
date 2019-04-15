@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+  <script src = "visionapi.js"></script>
+  <style>
+    input[type="file"] {
+    display: none;
+}
+.center {
+  margin: auto;
+  text-align: center;
+  height: 30%;
+}
+.button {
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+}
+
+.button:hover {
+  background-color: #4CAF50; /* Green */
+  color: white;
+}
+  </style>
+  <title>Node File Uploads</title>
+</style>
+</head>
+<body>
+  <div class ="center">
+                      <img src="https://raw.githubusercontent.com/Ram-Dixital/Vin_scanner_Images_public/master/DCU.jpg" alt="Trulli" width="250" height="100">
+                       <br><br><br>
+                       <!--    <%= typeof msg != 'undefined' ? msg : '' %>  --> <!-- this line for testing the flow-->
+                         <form action="/upload" method="POST" enctype="multipart/form-data" accept="image/*; capture=camera">
+                                  <label class="waves-effect waves-light btn teal darken-1">SCAN VIN NUMBER<input name="myImage" type="file"></label>
+                                  <br><br><br>
+                                  <label class="waves-effect waves-light btn deep-purple accent-4">
+                                  <input type="button" font size="6" value=" DCU AUTO INSURANCE QUOTE" onclick="location.href='https://www.dcu.org/dcu-insurance/quote-request-choices.html';" target ="_blank" /></label>
+                                  <br><br><br>
+                                  <!--   <button type="submit" onclick="processImage()">CAR FAX</button> -->
+                                  <input name="submit"  onclick="processImage()" src="https://raw.githubusercontent.com/Ram-Dixital/Vin_scanner_Images_public/master/show-me-carfax.png" type="image" width="250" height="60">
+                          </form>                   
+  </div>
+  <script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>  
+</body>
+</html>
